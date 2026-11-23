@@ -47,6 +47,10 @@ Publish it so that peers can connect to you (not when BiglyBT is on a VPN contai
 BiglyBT has no VPN of its own: run it on the network of a VPN container, and its traffic goes through the VPN. \
 How to set that up, with an OpenVPN and a WireGuard example: [NETWORKING.md](NETWORKING.md)
 
+## Magnet links
+Firefox in the container's desktop can send the magnet links you click to BiglyBT. \
+How to set that up: [MAGNET_LINKS.md](MAGNET_LINKS.md)
+
 ## BiglyBT Options
 Optional: Choose the version of Java that BiglyBT runs on \
 Default: 25

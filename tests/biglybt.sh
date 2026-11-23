@@ -1,6 +1,6 @@
 #!/bin/bash
-# Start an ubuntu-desktop-xfce-biglybt image the way users do and check the whole path: the image's tools and
-# BiglyBT installer, the desktop, /data's folders and default config, ~/.biglybt on /data, BiglyBT installed at
+# Start an ubuntu-desktop-xfce-biglybt image the way users do and check the whole path: the image's tools, Firefox
+# and BiglyBT installer, the desktop, /data's folders and default config, ~/.biglybt on /data, BiglyBT installed at
 # the first start and listening on 28474 (the default config's port), and a .torrent dropped in /data/autoload
 # imported into /data/torrents. Options after the image go to docker run, such as a non-root desktop user.
 # Run it on a Docker host, as .github/workflows/ci.yml does before it publishes:
@@ -44,13 +44,16 @@ trap 'docker rm -f -v "${NAME}" >/dev/null 2>&1 || true' EXIT
 
 docker run -d --name "${NAME}" "$@" "${IMAGE}" >/dev/null
 
-# The image: BiglyBT's installer, and the tools the Dockerfile installs (7zip-rar gives 7z its RAR codec)
+# The image: BiglyBT's installer, and Firefox and the tools the Dockerfile installs (7zip-rar gives 7z its RAR codec)
 docker exec "${NAME}" test -x /app/installer/BiglyBT_Installer.sh || fail "/app/installer/BiglyBT_Installer.sh is missing or not executable"
-for TOOL in 7z buildtorrent mktorrent ping ip lsof netstat tree file zip unzip zstd mtr ssh; do
+for TOOL in firefox 7z buildtorrent mktorrent ping ip lsof netstat tree file zip unzip zstd mtr ssh; do
   docker exec "${NAME}" which "${TOOL}" >/dev/null || fail "${TOOL} is not installed"
 done
 SEVENZIP=$(docker exec "${NAME}" 7z i)
 grep -q -E '^ *[0-9]+ +[A-Z]* +[0-9A-F]+ +Rar5$' <<<"${SEVENZIP}" || fail "7z lists no RAR codec (7zip-rar)"
+# Firefox is Mozilla's build, from the Mozilla Team PPA (Ubuntu's own firefox package is a transition to the snap)
+FIREFOX=$(docker exec "${NAME}" firefox --version 2>/dev/null || true)
+[[ "${FIREFOX}" == "Mozilla Firefox "* ]] || fail "firefox is not Mozilla's build from the Mozilla Team PPA (firefox --version: ${FIREFOX})"
 
 # The desktop: a VNC server speaks first, with an RFB ProtocolVersion banner such as "RFB 003.008",
 # and Xfce starts after it, from its xstartup

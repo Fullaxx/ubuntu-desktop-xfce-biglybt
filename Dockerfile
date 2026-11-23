@@ -6,8 +6,19 @@ FROM ghcr.io/fullaxx/ubuntu-desktop-xfce:26.04
 LABEL author="Brett Kuskie <fullaxx@gmail.com>"
 
 # ------------------------------------------------------------------------------
-# Install tools and clean up
+# Add the Mozilla Team PPA, for Firefox
+# (the base image's script, the one its Firefox launcher runs: the PPA's key, its sources, and a pin above Ubuntu's
+# archive, whose firefox package is a transition to the snap; the lists from its apt-get update are cleaned up here)
+RUN /app/scripts/prepare_firefox_ppa_direct.sh && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+
+# ------------------------------------------------------------------------------
+# Install Firefox and tools, and clean up
 # (7zip-rar comes from multiverse, which the base image's apt sources include)
+# APT_REFRESH: CI passes its run id, so that each CI run installs Ubuntu's and the PPA's packages as they are then,
+# instead of reusing a cached layer
+ARG APT_REFRESH
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       7zip \
@@ -18,6 +29,7 @@ RUN apt-get update && \
       ca-certificates \
       curl \
       file \
+      firefox \
       iproute2 \
       iputils-ping \
       lsof \

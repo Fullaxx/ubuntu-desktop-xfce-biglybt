@@ -4,10 +4,11 @@
 # plus :<branch>-<short sha> for each build. "Run workflow" in the Actions tab does the same by hand for
 # the branch it runs on (any other branch publishes only its <branch>-<short sha>).
 #
-# The image is built FROM ghcr.io/fullaxx/ubuntu-desktop-xfce:26.04 as it is when this runs, and the
-# Dockerfile's ADD downloads BiglyBT's installer as it is then. After ubuntu-desktop-xfce publishes a new
-# image, or BiglyBT a new release, "Run workflow" on master rebuilds this one with it (a commit that was
-# already built gets its <branch>-<short sha> pushed again).
+# The image is built FROM ghcr.io/fullaxx/ubuntu-desktop-xfce:26.04 as it is when this runs, the Dockerfile's
+# ADD downloads BiglyBT's installer as it is then, and each run installs the apt packages again (APT_REFRESH):
+# Ubuntu's, and Firefox from the Mozilla Team PPA. After ubuntu-desktop-xfce publishes a new image, BiglyBT a
+# new release, or Ubuntu or Mozilla new packages, "Run workflow" on master rebuilds this one with them (a
+# commit that was already built gets its <branch>-<short sha> pushed again).
 name: CI
 
 on:
@@ -66,12 +67,14 @@ jobs:
 
       # build-contexts: the base image looked up above, by digest (a build context named after
       # a FROM line's image replaces it); the GitHub Actions cache keeps unchanged layers
-      # (ADD checks BiglyBT's installer URL at every build, and reuses its layer while the file is unchanged)
+      # (ADD checks BiglyBT's installer URL at every build, and reuses its layer while the file is unchanged;
+      # APT_REFRESH: this run's id, so that the apt-get layer is built again with the packages as they are now)
       - name: Build the image
         uses: docker/build-push-action@v7
         with:
           context: .
           build-contexts: ${{ steps.bases.outputs.contexts }}
+          build-args: APT_REFRESH=${{ github.run_id }}
           load: true
           tags: ${{ env.TEST_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -91,14 +94,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # The same build again, on the same base image: every layer comes from the build above
-      # (the installer too, unless BiglyBT published a new one in between), so this pushes the image
-      # that was just tested
+      # The same build again, on the same base image and with the same APT_REFRESH: every layer comes
+      # from the build above (the installer too, unless BiglyBT published a new one in between), so this
+      # pushes the image that was just tested
       - name: Push the image
         uses: docker/build-push-action@v7
         with:
           context: .
           build-contexts: ${{ steps.bases.outputs.contexts }}
+          build-args: APT_REFRESH=${{ github.run_id }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

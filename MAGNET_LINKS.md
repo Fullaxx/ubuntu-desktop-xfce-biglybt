@@ -1,7 +1,7 @@
 # Configuring Magnet Links
 
 Firefox in the container's desktop can send the magnet links you click to BiglyBT. \
-Applications > Ubuntu Desktop > Network > Browsers > Firefox installs Firefox the first time you open it.
+Firefox is in the image: Applications > Ubuntu Desktop > Network > Browsers > Firefox.
 
 ## Firefox
 * Open Firefox, type `about:config` in the address bar and press Enter

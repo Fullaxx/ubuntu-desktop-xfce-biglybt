@@ -9,6 +9,7 @@ BiglyBT starts with the desktop and keeps everything (its settings, its torrents
 ## Software
 * [BiglyBT](https://www.biglybt.com/) - its latest release, currently 4.2.0.0. The installer is downloaded from BiglyBT's website when the image is built (/app/installer)
 * OpenJDK 25 and WebKitGTK, for BiglyBT
+* [Firefox](https://www.mozilla.org/firefox/) - Mozilla's build from the Mozilla Team PPA (Ubuntu's own firefox package is the snap)
 * 7-Zip (with RAR support), mktorrent, buildtorrent, curl, wget, file, lsof, ping, mtr, the OpenSSH client, iproute2, net-tools, tree, zip/unzip, bzip2, xz-utils, zstd and bash-completion
 
 ## Get the image or build it locally
@@ -17,7 +18,8 @@ docker pull ghcr.io/fullaxx/ubuntu-desktop-xfce-biglybt
 
 docker build -t="ghcr.io/fullaxx/ubuntu-desktop-xfce-biglybt" https://github.com/Fullaxx/ubuntu-desktop-xfce-biglybt.git
 ```
-`:latest` and `:26.04` (ubuntu-desktop-xfce 26.04) are the same image. It is rebuilt at every push to `master`, and a rebuild picks up a new BiglyBT release.
+`:latest` and `:26.04` (ubuntu-desktop-xfce 26.04) are the same image. It is rebuilt at every push to `master`, and a rebuild picks up a new BiglyBT release,
+Mozilla's updates to Firefox and Ubuntu's to the other packages.
 
 ## Volume: /data
 Mount a directory on /data to keep your downloads and BiglyBT's settings when the container is re-created
@@ -46,6 +48,13 @@ Publish it so that peers can connect to you (not when BiglyBT is on a VPN contai
 ## VPN
 BiglyBT has no VPN of its own: run it on the network of a VPN container, and its traffic goes through the VPN. \
 How to set that up, with an OpenVPN and a WireGuard example: [NETWORKING.md](NETWORKING.md)
+
+## Firefox
+Firefox is in the image: Applications > Ubuntu Desktop > Network > Browsers > Firefox. \
+Give the container more shared memory, or Firefox's tabs crash ([why](https://github.com/Fullaxx/ubuntu-desktop-xfce/blob/master/troubleshooting/WEB_BROWSERS.md))
+```
+--shm-size 2g
+```
 
 ## Magnet links
 Firefox in the container's desktop can send the magnet links you click to BiglyBT. \

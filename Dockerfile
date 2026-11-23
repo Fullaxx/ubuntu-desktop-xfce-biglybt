@@ -14,8 +14,10 @@ RUN /app/scripts/prepare_firefox_ppa_direct.sh && \
     rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
 
 # ------------------------------------------------------------------------------
-# Install Firefox and tools, and clean up
-# (7zip-rar comes from multiverse, which the base image's apt sources include)
+# Install Firefox, BiglyBT's Java and WebKit, and tools, and clean up
+# (openjdk-25-jre-headless and webkitgtk-webdriver are what the base image's install_biglybt.sh installs at the
+# first start, which then finds them installed; 7zip-rar comes from multiverse, which the base image's apt sources
+# include)
 # APT_REFRESH: CI passes its run id, so that each CI run installs Ubuntu's and the PPA's packages as they are then,
 # instead of reusing a cached layer
 ARG APT_REFRESH

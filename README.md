@@ -61,23 +61,9 @@ Give the container more shared memory, or Firefox's tabs crash ([why](https://gi
 Firefox in the container's desktop can send the magnet links you click to BiglyBT. \
 How to set that up: [MAGNET_LINKS.md](MAGNET_LINKS.md)
 
-## BiglyBT Options
-Optional: Choose the version of Java that BiglyBT runs on \
-Default: 25
-```
--e BBTJAVAVERS='17'
--e BBTJAVAVERS='21'
-```
-Optional: Run BiglyBT's installer in its window, to choose its options yourself \
-Default: automatic quiet install
-```
--e BBTGUIINSTALL='1'
-```
-
 ## The first start
 Java and WebKit are in the image. At the container's first login, an xterm window runs ubuntu-desktop-xfce's install_biglybt.sh:
 apt-get update (so it needs network access), then BiglyBT's installer from /app/installer. Then BiglyBT starts. \
-A `BBTJAVAVERS` other than 25, or `BBTGUIINSTALL`'s Java, is installed with apt-get at that point. \
 `docker restart` finds BiglyBT installed. A new container (after `docker rm`) installs it again, and BiglyBT finds its settings,
 its torrents and your downloads in /data. \
 With a new /data, BiglyBT asks whether to install its Tor Helper Plugin; your answer, with "Don't prompt me again", is kept in /data/config. \

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=BiglyBT
+Comment=Prepares /data for BiglyBT, then starts it (the first start installs it)
+Exec=/usr/local/bin/biglybt_autostart.sh
+OnlyShowIn=XFCE;
+Terminal=false
+StartupNotify=false

@@ -22,8 +22,10 @@ RUN apt-get update && \
       iputils-ping \
       lsof \
       mktorrent \
+      mtr-tiny \
       net-tools \
       openjdk-25-jre-headless \
+      openssh-client \
       tree \
       unzip \
       webkitgtk-webdriver \

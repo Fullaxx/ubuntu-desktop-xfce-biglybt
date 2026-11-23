@@ -46,7 +46,7 @@ docker run -d --name "${NAME}" "$@" "${IMAGE}" >/dev/null
 
 # The image: BiglyBT's installer, and the tools the Dockerfile installs (7zip-rar gives 7z its RAR codec)
 docker exec "${NAME}" test -x /app/installer/BiglyBT_Installer.sh || fail "/app/installer/BiglyBT_Installer.sh is missing or not executable"
-for TOOL in 7z buildtorrent mktorrent ping ip lsof netstat tree file zip unzip zstd; do
+for TOOL in 7z buildtorrent mktorrent ping ip lsof netstat tree file zip unzip zstd mtr ssh; do
   docker exec "${NAME}" which "${TOOL}" >/dev/null || fail "${TOOL} is not installed"
 done
 SEVENZIP=$(docker exec "${NAME}" 7z i)

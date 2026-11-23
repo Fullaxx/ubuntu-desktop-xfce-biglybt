@@ -9,7 +9,7 @@ BiglyBT starts with the desktop and keeps everything (its settings, its torrents
 ## Software
 * [BiglyBT](https://www.biglybt.com/) - its latest release, currently 4.2.0.0. The installer is downloaded from BiglyBT's website when the image is built (/app/installer)
 * OpenJDK 25 and WebKitGTK, for BiglyBT
-* 7-Zip (with RAR support), mktorrent, buildtorrent, curl, wget, file, lsof, ping, iproute2, net-tools, tree, zip/unzip, bzip2, xz-utils, zstd and bash-completion
+* 7-Zip (with RAR support), mktorrent, buildtorrent, curl, wget, file, lsof, ping, mtr, the OpenSSH client, iproute2, net-tools, tree, zip/unzip, bzip2, xz-utils, zstd and bash-completion
 
 ## Get the image or build it locally
 ```

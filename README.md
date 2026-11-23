@@ -39,7 +39,8 @@ Mount a directory on /data to keep your downloads and BiglyBT's settings when th
 - With `VNCUSERMAP`, the desktop user is given everything in the five folders that belongs to someone else, at every login (only those files change). As root (the default), no owner changes.
 
 ## Incoming connections
-BiglyBT listens on port 28474, TCP and UDP (set by its default settings; Tools > Options > Connection changes it). \
+BiglyBT listens on port 28474, TCP and UDP \
+(set by its default settings; Tools > Options > Connection changes it). \
 Publish it so that peers can connect to you (not when BiglyBT is on a VPN container's network: [NETWORKING.md](NETWORKING.md#biglybts-incoming-port))
 ```
 -p 28474:28474 -p 28474:28474/udp

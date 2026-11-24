@@ -18,7 +18,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     # each test run installs BiglyBT at the container's first start
     timeout-minutes: 45
 

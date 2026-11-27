@@ -18,7 +18,7 @@ docker pull ghcr.io/fullaxx/ubuntu-desktop-xfce-biglybt
 
 docker build -t="ghcr.io/fullaxx/ubuntu-desktop-xfce-biglybt" https://github.com/Fullaxx/ubuntu-desktop-xfce-biglybt.git
 ```
-`:latest` and `:26.04` (ubuntu-desktop-xfce 26.04) are the same image. It is rebuilt at every push to `master`, and a rebuild picks up a new BiglyBT release,
+`:latest`, `:26.04` and `:resolute` (ubuntu-desktop-xfce 26.04) are the same image. It is rebuilt at every push to `master`, and a rebuild picks up a new BiglyBT release,
 Mozilla's updates to Firefox and Ubuntu's to the other packages.
 
 ## Volume: /data

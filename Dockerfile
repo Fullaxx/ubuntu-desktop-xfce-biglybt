@@ -41,6 +41,8 @@ RUN apt-get update && \
       net-tools \
       openjdk-25-jre-headless \
       openssh-client \
+      redir \
+      socat \
       tree \
       unzip \
       webkitgtk-webdriver \
